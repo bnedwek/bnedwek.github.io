@@ -1,0 +1,17 @@
+language: python
+branches:
+  only:
+  - master
+install:
+- pip install "pelican[markdown]"
+- git clone https://github.com/mc-buckets/brutalist.git ~/brutalist
+- pelican-themes --install ~/brutalist
+script:
+- make html
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: master
