@@ -8,6 +8,7 @@ install:
 - pelican-themes --install ~/brutalist
 script:
 - make html
+- cp CNAME docs/
 deploy:
   provider: pages
   skip_cleanup: true
