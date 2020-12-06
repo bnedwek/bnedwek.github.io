@@ -1,0 +1,29 @@
+
+name: Build Pelican blog
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install "pelican[markdown]"
+        git clone https://github.com/mc-buckets/brutalist.git ~/brutalist
+        pelican-themes --install ~/brutalist
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Build HTML
+      run: |
+        make html
+        cp CNAME docs/
